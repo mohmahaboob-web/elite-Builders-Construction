@@ -1,0 +1,6 @@
+{
+  "name": "ELITE BUILDERS — Udangudi Construction & Contracting",
+  "description": "உடன்குடி மற்றும் தென் தமிழகத்தில் தரமான வீடு மற்றும் வணிகக் கட்டிட கட்டுமான சேவைகள். Trusted residential and commercial building construction in Udangudi, Tiruchendur, Sathankulam, Thisayanvilai, Tirunelveli, and Thoothukudi.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

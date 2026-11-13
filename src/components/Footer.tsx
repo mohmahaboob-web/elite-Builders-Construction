@@ -1,0 +1,91 @@
+import { BRAND, NAV_LINKS, type LanguageMode } from '../data/content';
+
+interface FooterProps {
+  langMode: LanguageMode;
+}
+
+export function Footer({ langMode }: FooterProps) {
+  return (
+    <footer className="bg-[#071429] text-slate-300 border-t border-white/10">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-12 sm:py-14">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-10 border-b border-white/10">
+          {/* Brand Summary */}
+          <div className="md:col-span-5 space-y-4">
+            <div className="inline-block bg-white rounded-md px-3.5 py-2.5">
+              <img
+                src={BRAND.logoPath}
+                alt="ELITE BUILDERS"
+                referrerPolicy="no-referrer"
+                className="h-11 sm:h-12 w-auto object-contain"
+              />
+            </div>
+
+            <p className="tamil-copy text-sm text-slate-200 leading-relaxed">
+              {langMode === 'en'
+                ? 'Building Construction and Contracting in Udangudi, serving residential and commercial clients across South Tamil Nadu.'
+                : 'உடன்குடியில் வீடு கட்டித் தருபவர்கள் · உடன்குடி கட்டுமான நிறுவனம் · தூத்துக்குடி மாவட்டம் வீடு கட்டுமானம் மற்றும் வணிகக் கட்டிட ஒப்பந்ததாரர்கள்.'}
+            </p>
+            {langMode === 'bilingual' && (
+              <p className="text-xs text-slate-400">
+                Udangudi · Tiruchendur · Sathankulam · Thisayanvilai · Tirunelveli · Thoothukudi
+              </p>
+            )}
+          </div>
+
+          {/* Quick Navigation */}
+          <div className="md:col-span-4 space-y-3">
+            <p className="text-xs font-semibold text-[#DFB664]">
+              {langMode === 'en' ? 'Quick Navigation' : 'விரைவு இணைப்புகள் · Quick Links'}
+            </p>
+            <ul className="grid grid-cols-2 gap-y-2.5 gap-x-4 text-sm">
+              {NAV_LINKS.map((link) => (
+                <li key={link.id}>
+                  <a
+                    href={`#${link.id}`}
+                    className="hover:text-white transition-colors duration-150"
+                  >
+                    {langMode === 'ta'
+                      ? link.ta
+                      : langMode === 'en'
+                        ? link.en
+                        : `${link.ta} · ${link.en}`}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div className="md:col-span-3 space-y-3">
+            <p className="text-xs font-semibold text-[#DFB664]">
+              {langMode === 'en' ? 'Direct Contact' : 'நேரடித் தொடர்பு · Contact'}
+            </p>
+            <div className="space-y-2 text-sm">
+              <p className="text-white font-semibold tabular-nums">
+                <a href={BRAND.phoneHref} className="hover:text-[#DFB664] transition-colors">
+                  {BRAND.phoneDisplay}
+                </a>
+              </p>
+              <p className="tamil-copy text-xs text-slate-300">
+                {langMode === 'en' ? BRAND.location.en : BRAND.location.ta}
+              </p>
+              {langMode === 'bilingual' && (
+                <p className="text-xs text-slate-400">{BRAND.location.en}</p>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Quiet Copyright Bar */}
+        <div className="pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-slate-400">
+          <p>© {new Date().getFullYear()} ELITE BUILDERS · Udangudi, Tamil Nadu.</p>
+          <p>
+            {langMode === 'en'
+              ? 'Building Construction & Contracting'
+              : 'தரமான கட்டிட கட்டுமானம் மற்றும் ஒப்பந்தப் பணிகள்'}
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+}

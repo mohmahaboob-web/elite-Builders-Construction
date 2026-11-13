@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Montserrat", "Noto Sans Tamil", system-ui, -apple-system, sans-serif;
+  --font-display: "Montserrat", "Noto Sans Tamil", system-ui, -apple-system, sans-serif;
+  --font-tamil: "Noto Sans Tamil", "Montserrat", system-ui, sans-serif;
+
+  --color-navy-950: #071429;
+  --color-navy-900: #0B1D3A;
+  --color-navy-800: #132C54;
+  --color-charcoal-900: #1E242B;
+  --color-charcoal-700: #333C48;
+  --color-charcoal-500: #5A6472;
+  --color-gold-400: #DFB664;
+  --color-gold-500: #C69749;
+  --color-gold-700: #8A611B;
+  --color-canvas-50: #FAFBFD;
+  --color-border-200: #E2E7EF;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+  }
+
+  .tamil-copy {
+    font-family: var(--font-tamil);
+    line-height: 1.65;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
