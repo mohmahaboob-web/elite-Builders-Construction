@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { AboutSection } from './components/AboutSection';
@@ -11,10 +11,14 @@ import { FloatingActions } from './components/FloatingActions';
 import type { LanguageMode } from './data/content';
 
 export default function App() {
-  const [langMode, setLangMode] = useState<LanguageMode>('bilingual');
+  const [langMode, setLangMode] = useState<LanguageMode>('ta');
   const [selectedServiceId, setSelectedServiceId] = useState<string>(
     'residential-construction'
   );
+
+  useEffect(() => {
+    document.documentElement.lang = langMode;
+  }, [langMode]);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FAFBFD] text-[#1E242B]">

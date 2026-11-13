@@ -9,9 +9,7 @@ interface AboutSectionProps {
 export function AboutSection({ langMode }: AboutSectionProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isMuted, setIsMuted] = useState(true);
-
-  const showTa = langMode === 'bilingual' || langMode === 'ta';
-  const showEn = langMode === 'bilingual' || langMode === 'en';
+  const isTa = langMode === 'ta';
 
   const toggleMute = () => {
     if (!videoRef.current) return;
@@ -40,9 +38,7 @@ export function AboutSection({ langMode }: AboutSectionProps) {
 
               <div className="flex items-center justify-between gap-3 px-4 py-3 bg-[#0B1D3A] text-white border-t border-white/10">
                 <p className="text-xs text-slate-200 leading-snug">
-                  {langMode === 'en'
-                    ? ABOUT_CONTENT.videoCaption.en
-                    : ABOUT_CONTENT.videoCaption.ta}
+                  {isTa ? ABOUT_CONTENT.videoCaption.ta : ABOUT_CONTENT.videoCaption.en}
                 </p>
                 <button
                   type="button"
@@ -53,12 +49,12 @@ export function AboutSection({ langMode }: AboutSectionProps) {
                   {isMuted ? (
                     <>
                       <VolumeX className="w-3.5 h-3.5" />
-                      <span>Unmute</span>
+                      <span>{isTa ? 'ஒலி இயக்கு' : 'Unmute'}</span>
                     </>
                   ) : (
                     <>
                       <Volume2 className="w-3.5 h-3.5" />
-                      <span>Sound On</span>
+                      <span>{isTa ? 'ஒலி உண்டு' : 'Sound On'}</span>
                     </>
                   )}
                 </button>
@@ -69,77 +65,53 @@ export function AboutSection({ langMode }: AboutSectionProps) {
             <div className="p-5 sm:p-6 rounded-lg bg-white border border-[#E2E7EF] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <img
                 src={BRAND.logoPath}
-                alt="ELITE BUILDERS Official Emblem"
+                alt="elite Builders Official Emblem"
                 referrerPolicy="no-referrer"
                 className="h-14 sm:h-16 w-auto object-contain"
               />
               <div className="flex items-start gap-2 text-xs text-[#333C48]">
                 <MapPin className="w-4 h-4 text-[#8A611B] shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-semibold text-[#0B1D3A]">
-                    {langMode === 'en' ? BRAND.location.en : BRAND.location.ta}
-                  </p>
-                  {langMode === 'bilingual' && (
-                    <p className="text-[#5A6472] mt-0.5">{BRAND.location.en}</p>
-                  )}
-                </div>
+                <p className="font-semibold text-[#0B1D3A]">
+                  {isTa ? BRAND.location.ta : BRAND.location.en}
+                </p>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Bilingual About Story */}
+          {/* Right Column: About Story */}
           <div className="lg:col-span-7 flex flex-col justify-center">
             <p className="text-xs sm:text-[13px] font-semibold tracking-wide text-[#8A611B]">
-              {langMode === 'ta'
-                ? ABOUT_CONTENT.kicker.ta
-                : langMode === 'en'
-                  ? ABOUT_CONTENT.kicker.en
-                  : `${ABOUT_CONTENT.kicker.ta} · ${ABOUT_CONTENT.kicker.en}`}
+              {isTa ? ABOUT_CONTENT.kicker.ta : ABOUT_CONTENT.kicker.en}
             </p>
 
-            {showTa && (
+            {isTa ? (
               <h2 className="tamil-copy mt-3 text-2xl sm:text-[2rem] font-bold text-[#0B1D3A] leading-[1.35]">
                 {ABOUT_CONTENT.headline.ta}
               </h2>
-            )}
-
-            {showEn && (
-              <p
-                className={
-                  langMode === 'en'
-                    ? 'mt-3 text-2xl sm:text-[2rem] font-bold text-[#0B1D3A] leading-tight'
-                    : 'mt-2.5 text-base sm:text-lg font-semibold text-[#333C48] leading-snug'
-                }
-              >
+            ) : (
+              <h2 className="mt-3 text-2xl sm:text-[2rem] font-bold text-[#0B1D3A] leading-tight">
                 {ABOUT_CONTENT.headline.en}
-              </p>
+              </h2>
             )}
 
             <div className="mt-6 space-y-5 text-[15px] sm:text-base text-[#333C48]">
               {ABOUT_CONTENT.paragraphs.map((para, index) => (
-                <div key={index} className="space-y-1.5">
-                  {showTa && <p className="tamil-copy">{para.ta}</p>}
-                  {showEn && (
-                    <p className="text-[14.5px] sm:text-[15px] text-[#5A6472] leading-relaxed">
-                      {para.en}
-                    </p>
-                  )}
-                </div>
+                <p
+                  key={index}
+                  className={isTa ? 'tamil-copy' : 'leading-relaxed'}
+                >
+                  {isTa ? para.ta : para.en}
+                </p>
               ))}
             </div>
 
-            {/* Natural Local Search Visibility Note (Unboxed Typographic Line) */}
+            {/* Natural Local Search Visibility Note */}
             <div className="mt-8 pt-5 border-t border-[#E2E7EF]">
               <p className="text-xs sm:text-[13px] font-medium text-[#0B1D3A]">
-                {langMode === 'en'
-                  ? ABOUT_CONTENT.regionalKeywordsNote.en
-                  : ABOUT_CONTENT.regionalKeywordsNote.ta}
+                {isTa
+                  ? ABOUT_CONTENT.regionalKeywordsNote.ta
+                  : ABOUT_CONTENT.regionalKeywordsNote.en}
               </p>
-              {langMode === 'bilingual' && (
-                <p className="text-xs text-[#5A6472] mt-1">
-                  {ABOUT_CONTENT.regionalKeywordsNote.en}
-                </p>
-              )}
             </div>
           </div>
         </div>

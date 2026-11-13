@@ -9,18 +9,8 @@ interface NavbarProps {
 export function Navbar({ langMode }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const getNavLabel = (ta: string, en: string) => {
-    if (langMode === 'ta') return ta;
-    if (langMode === 'en') return en;
-    return `${ta} · ${en}`;
-  };
-
-  const ctaLabel =
-    langMode === 'ta'
-      ? 'இலவச ஆலோசனை'
-      : langMode === 'en'
-        ? 'Free Estimate'
-        : 'ஆலோசனை · Estimate';
+  const isTa = langMode === 'ta';
+  const ctaLabel = isTa ? 'இலவச ஆலோசனை' : 'Free Estimate';
 
   return (
     <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-[#E2E7EF]">
@@ -44,10 +34,10 @@ export function Navbar({ langMode }: NavbarProps) {
           </span>
         </a>
 
-        {/* Zone 2: Bilingual Single-Line Nav Links */}
+        {/* Zone 2: Single-Language Clean Nav Links */}
         <nav
           aria-label="Primary Navigation"
-          className="hidden lg:flex items-center gap-4 xl:gap-5 text-[13px] font-medium text-[#333C48]"
+          className="hidden lg:flex items-center gap-6 xl:gap-8 text-sm font-medium text-[#333C48]"
         >
           {NAV_LINKS.map((link) => (
             <a
@@ -55,7 +45,7 @@ export function Navbar({ langMode }: NavbarProps) {
               href={`#${link.id}`}
               className="whitespace-nowrap shrink-0 py-1 border-b-2 border-transparent hover:border-[#C69749] hover:text-[#0B1D3A] transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#0B1D3A]"
             >
-              {getNavLabel(link.ta, link.en)}
+              {isTa ? link.ta : link.en}
             </a>
           ))}
         </nav>
@@ -90,10 +80,9 @@ export function Navbar({ langMode }: NavbarProps) {
                 key={link.id}
                 href={`#${link.id}`}
                 onClick={() => setMobileOpen(false)}
-                className="flex items-center justify-between px-3 py-3 text-sm font-medium text-[#1E242B] hover:bg-[#FAFBFD] hover:text-[#0B1D3A] rounded-md min-h-[44px]"
+                className="flex items-center px-3 py-3 text-sm font-semibold text-[#1E242B] hover:bg-[#FAFBFD] hover:text-[#0B1D3A] rounded-md min-h-[44px]"
               >
-                <span className="tamil-copy font-semibold">{link.ta}</span>
-                <span className="text-xs text-[#5A6472]">{link.en}</span>
+                {isTa ? link.ta : link.en}
               </a>
             ))}
             <a

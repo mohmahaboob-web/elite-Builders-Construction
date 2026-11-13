@@ -11,8 +11,7 @@ interface WhyChooseUsSectionProps {
 }
 
 export function WhyChooseUsSection({ langMode }: WhyChooseUsSectionProps) {
-  const showTa = langMode === 'bilingual' || langMode === 'ta';
-  const showEn = langMode === 'bilingual' || langMode === 'en';
+  const isTa = langMode === 'ta';
 
   return (
     <section id="why-us" className="bg-[#0B1D3A] text-white py-16 sm:py-24">
@@ -20,28 +19,17 @@ export function WhyChooseUsSection({ langMode }: WhyChooseUsSectionProps) {
         {/* Section Header */}
         <div className="max-w-3xl">
           <p className="text-xs sm:text-[13px] font-semibold tracking-wide text-[#DFB664]">
-            {langMode === 'ta'
-              ? WHY_CHOOSE_US.kicker.ta
-              : langMode === 'en'
-                ? WHY_CHOOSE_US.kicker.en
-                : `${WHY_CHOOSE_US.kicker.ta} · ${WHY_CHOOSE_US.kicker.en}`}
+            {isTa ? WHY_CHOOSE_US.kicker.ta : WHY_CHOOSE_US.kicker.en}
           </p>
 
-          {showTa && (
+          {isTa ? (
             <h2 className="tamil-copy mt-3 text-2xl sm:text-[2.1rem] font-bold text-white leading-[1.35]">
               {WHY_CHOOSE_US.headline.ta}
             </h2>
-          )}
-          {showEn && (
-            <p
-              className={
-                langMode === 'en'
-                  ? 'mt-3 text-2xl sm:text-[2.1rem] font-bold text-white leading-tight'
-                  : 'mt-2 text-base sm:text-lg font-medium text-slate-300'
-              }
-            >
+          ) : (
+            <h2 className="mt-3 text-2xl sm:text-[2.1rem] font-bold text-white leading-tight">
               {WHY_CHOOSE_US.headline.en}
-            </p>
+            </h2>
           )}
         </div>
 
@@ -56,29 +44,21 @@ export function WhyChooseUsSection({ langMode }: WhyChooseUsSectionProps) {
                 {pillar.number}
               </span>
 
-              <div className="space-y-1.5">
-                {showTa && (
-                  <h3 className="tamil-copy text-xl font-bold text-white leading-snug">
-                    {pillar.headline.ta}
-                  </h3>
-                )}
-                {showEn && (
-                  <p
-                    className={
-                      langMode === 'en'
-                        ? 'text-xl font-bold text-white'
-                        : 'text-sm font-semibold text-[#DFB664]'
-                    }
-                  >
-                    {pillar.headline.en}
-                  </p>
-                )}
-              </div>
+              <h3
+                className={`text-xl font-bold text-white leading-snug ${
+                  isTa ? 'tamil-copy' : ''
+                }`}
+              >
+                {isTa ? pillar.headline.ta : pillar.headline.en}
+              </h3>
 
-              <div className="space-y-2 text-sm leading-relaxed">
-                {showTa && <p className="tamil-copy text-slate-200">{pillar.detail.ta}</p>}
-                {showEn && <p className="text-slate-300">{pillar.detail.en}</p>}
-              </div>
+              <p
+                className={`text-sm leading-relaxed text-slate-200 ${
+                  isTa ? 'tamil-copy' : ''
+                }`}
+              >
+                {isTa ? pillar.detail.ta : pillar.detail.en}
+              </p>
             </div>
           ))}
         </div>
@@ -87,22 +67,15 @@ export function WhyChooseUsSection({ langMode }: WhyChooseUsSectionProps) {
         <div className="mt-16 pt-12 border-t border-white/10">
           <div className="max-w-2xl">
             <p className="text-xs font-semibold tracking-wide text-[#DFB664]">
-              {langMode === 'ta'
-                ? PROCESS_CONTENT.kicker.ta
-                : langMode === 'en'
-                  ? PROCESS_CONTENT.kicker.en
-                  : `${PROCESS_CONTENT.kicker.ta} · ${PROCESS_CONTENT.kicker.en}`}
+              {isTa ? PROCESS_CONTENT.kicker.ta : PROCESS_CONTENT.kicker.en}
             </p>
-            {showTa && (
-              <h3 className="tamil-copy mt-2 text-xl sm:text-2xl font-bold text-white">
-                {PROCESS_CONTENT.headline.ta}
-              </h3>
-            )}
-            {showEn && (
-              <p className="mt-1 text-sm sm:text-base font-medium text-slate-300">
-                {PROCESS_CONTENT.headline.en}
-              </p>
-            )}
+            <h3
+              className={`mt-2 text-xl sm:text-2xl font-bold text-white ${
+                isTa ? 'tamil-copy' : ''
+              }`}
+            >
+              {isTa ? PROCESS_CONTENT.headline.ta : PROCESS_CONTENT.headline.en}
+            </h3>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-8">
@@ -112,20 +85,22 @@ export function WhyChooseUsSection({ langMode }: WhyChooseUsSectionProps) {
                 className="p-5 rounded-lg border border-white/10 bg-white/[0.03] flex flex-col gap-2.5"
               >
                 <span className="text-xs font-semibold text-[#DFB664] tabular-nums">
-                  {langMode === 'ta' ? `படி ${item.step}` : `Step ${item.step}`}
+                  {isTa ? `படி ${item.step}` : `Step ${item.step}`}
                 </span>
-                {showTa && (
-                  <h4 className="tamil-copy text-base font-bold text-white leading-snug">
-                    {item.title.ta}
-                  </h4>
-                )}
-                {showEn && (
-                  <p className="text-xs font-semibold text-[#DFB664]">{item.title.en}</p>
-                )}
-                <div className="space-y-1.5 text-xs sm:text-[13px] leading-relaxed">
-                  {showTa && <p className="tamil-copy text-slate-300">{item.description.ta}</p>}
-                  {showEn && <p className="text-slate-400">{item.description.en}</p>}
-                </div>
+                <h4
+                  className={`text-base font-bold text-white leading-snug ${
+                    isTa ? 'tamil-copy' : ''
+                  }`}
+                >
+                  {isTa ? item.title.ta : item.title.en}
+                </h4>
+                <p
+                  className={`text-xs sm:text-[13px] leading-relaxed text-slate-300 ${
+                    isTa ? 'tamil-copy' : ''
+                  }`}
+                >
+                  {isTa ? item.description.ta : item.description.en}
+                </p>
               </div>
             ))}
           </div>
@@ -137,9 +112,9 @@ export function WhyChooseUsSection({ langMode }: WhyChooseUsSectionProps) {
             <MapPin className="w-5 h-5 text-[#DFB664] shrink-0 mt-0.5" />
             <div className="space-y-2">
               <p className="text-sm sm:text-base font-semibold text-white">
-                {langMode === 'en'
-                  ? 'Serving Udangudi & Surrounding South Tamil Nadu Regions'
-                  : 'உடன்குடி மற்றும் தென் தமிழகத்தின் முக்கியச் சேவைப் பகுதிகள்'}
+                {isTa
+                  ? 'உடன்குடி மற்றும் தென் தமிழகத்தின் முக்கியச் சேவைப் பகுதிகள்'
+                  : 'Serving Udangudi & Surrounding South Tamil Nadu Regions'}
               </p>
               <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-xs sm:text-sm text-slate-200">
                 {SERVICE_REGIONS.map((region, rIdx) => (
@@ -149,13 +124,7 @@ export function WhyChooseUsSection({ langMode }: WhyChooseUsSectionProps) {
                         ·
                       </span>
                     )}
-                    <span>
-                      {langMode === 'ta'
-                        ? region.ta
-                        : langMode === 'en'
-                          ? region.en
-                          : `${region.ta} (${region.en})`}
-                    </span>
+                    <span>{isTa ? region.ta : region.en}</span>
                   </span>
                 ))}
               </div>

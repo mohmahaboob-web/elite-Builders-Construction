@@ -7,8 +7,7 @@ interface ServicesSectionProps {
 }
 
 export function ServicesSection({ langMode, onSelectService }: ServicesSectionProps) {
-  const showTa = langMode === 'bilingual' || langMode === 'ta';
-  const showEn = langMode === 'bilingual' || langMode === 'en';
+  const isTa = langMode === 'ta';
 
   const handleServiceClick = (serviceId: string) => {
     onSelectService(serviceId);
@@ -24,40 +23,27 @@ export function ServicesSection({ langMode, onSelectService }: ServicesSectionPr
         {/* Section Header */}
         <div className="max-w-3xl">
           <p className="text-xs sm:text-[13px] font-semibold tracking-wide text-[#8A611B]">
-            {langMode === 'ta'
-              ? SERVICES_CONTENT.kicker.ta
-              : langMode === 'en'
-                ? SERVICES_CONTENT.kicker.en
-                : `${SERVICES_CONTENT.kicker.ta} · ${SERVICES_CONTENT.kicker.en}`}
+            {isTa ? SERVICES_CONTENT.kicker.ta : SERVICES_CONTENT.kicker.en}
           </p>
 
-          {showTa && (
+          {isTa ? (
             <h2 className="tamil-copy mt-3 text-2xl sm:text-[2.1rem] font-bold text-[#0B1D3A] leading-[1.35]">
               {SERVICES_CONTENT.headline.ta}
             </h2>
-          )}
-          {showEn && (
-            <p
-              className={
-                langMode === 'en'
-                  ? 'mt-3 text-2xl sm:text-[2.1rem] font-bold text-[#0B1D3A] leading-tight'
-                  : 'mt-2 text-base sm:text-lg font-semibold text-[#333C48]'
-              }
-            >
+          ) : (
+            <h2 className="mt-3 text-2xl sm:text-[2.1rem] font-bold text-[#0B1D3A] leading-tight">
               {SERVICES_CONTENT.headline.en}
-            </p>
+            </h2>
           )}
 
-          <div className="mt-4 space-y-1.5 text-sm sm:text-[15px] text-[#5A6472]">
-            {showTa && <p className="tamil-copy">{SERVICES_CONTENT.subtitle.ta}</p>}
-            {showEn && <p>{SERVICES_CONTENT.subtitle.en}</p>}
-          </div>
+          <p className={`mt-4 text-sm sm:text-[15px] text-[#5A6472] ${isTa ? 'tamil-copy' : ''}`}>
+            {isTa ? SERVICES_CONTENT.subtitle.ta : SERVICES_CONTENT.subtitle.en}
+          </p>
         </div>
 
         {/* Asymmetric Editorial Bento Grid (6 Services) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-5 mt-12">
           {SERVICES.map((service, index) => {
-            // First 2 marquee services span 6 cols each on lg; remaining 4 span 6 cols (2 rows of 2) or asymmetric 7/5 & 5/7
             const spanClass =
               index === 0
                 ? 'lg:col-span-7 bg-[#0B1D3A] text-white border-[#0B1D3A]'
@@ -93,60 +79,26 @@ export function ServicesSection({ langMode, onSelectService }: ServicesSectionPr
                           : 'text-[#0B1D3A] hover:text-[#8A611B] focus-visible:outline-[#0B1D3A]'
                       }`}
                     >
-                      <span>
-                        {langMode === 'ta'
-                          ? 'ஆலோசனை பெற'
-                          : langMode === 'en'
-                            ? 'Enquire'
-                            : 'ஆலோசனை · Enquire'}
-                      </span>
+                      <span>{isTa ? 'ஆலோசனை பெற' : 'Enquire'}</span>
                       <ArrowUpRight className="w-3.5 h-3.5" />
                     </button>
                   </div>
 
-                  <div className="mt-5 space-y-1.5">
-                    {showTa && (
-                      <h3
-                        className={`tamil-copy text-xl sm:text-[1.35rem] font-bold leading-snug ${
-                          isDark ? 'text-white' : 'text-[#0B1D3A]'
-                        }`}
-                      >
-                        {service.title.ta}
-                      </h3>
-                    )}
-                    {showEn && (
-                      <p
-                        className={
-                          langMode === 'en'
-                            ? `text-xl font-bold ${isDark ? 'text-white' : 'text-[#0B1D3A]'}`
-                            : `text-sm font-semibold ${isDark ? 'text-[#DFB664]' : 'text-[#333C48]'}`
-                        }
-                      >
-                        {service.title.en}
-                      </p>
-                    )}
-                  </div>
+                  <h3
+                    className={`mt-5 text-xl sm:text-[1.35rem] font-bold leading-snug ${
+                      isTa ? 'tamil-copy' : ''
+                    } ${isDark ? 'text-white' : 'text-[#0B1D3A]'}`}
+                  >
+                    {isTa ? service.title.ta : service.title.en}
+                  </h3>
 
-                  <div className="mt-4 space-y-2">
-                    {showTa && (
-                      <p
-                        className={`tamil-copy text-sm sm:text-[15px] ${
-                          isDark ? 'text-slate-200' : 'text-[#333C48]'
-                        }`}
-                      >
-                        {service.description.ta}
-                      </p>
-                    )}
-                    {showEn && (
-                      <p
-                        className={`text-sm leading-relaxed ${
-                          isDark ? 'text-slate-300' : 'text-[#5A6472]'
-                        }`}
-                      >
-                        {service.description.en}
-                      </p>
-                    )}
-                  </div>
+                  <p
+                    className={`mt-3 text-sm sm:text-[15px] leading-relaxed ${
+                      isTa ? 'tamil-copy' : ''
+                    } ${isDark ? 'text-slate-200' : 'text-[#333C48]'}`}
+                  >
+                    {isTa ? service.description.ta : service.description.en}
+                  </p>
                 </div>
 
                 {/* Unboxed Metadata Separators */}
@@ -160,13 +112,7 @@ export function ServicesSection({ langMode, onSelectService }: ServicesSectionPr
                   {service.highlights.map((h, hIdx) => (
                     <span key={hIdx} className="inline-flex items-center gap-2">
                       {hIdx > 0 && <span aria-hidden="true">·</span>}
-                      <span>
-                        {langMode === 'en'
-                          ? h.en
-                          : langMode === 'ta'
-                            ? h.ta
-                            : `${h.ta} / ${h.en}`}
-                      </span>
+                      <span>{isTa ? h.ta : h.en}</span>
                     </span>
                   ))}
                 </div>

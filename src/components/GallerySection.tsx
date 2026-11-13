@@ -17,9 +17,7 @@ export function GallerySection({ langMode }: GallerySectionProps) {
   const [activeFilter, setActiveFilter] = useState<FilterId>('all');
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
   const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
-
-  const showTa = langMode === 'bilingual' || langMode === 'ta';
-  const showEn = langMode === 'bilingual' || langMode === 'en';
+  const isTa = langMode === 'ta';
 
   const visibleItems =
     activeFilter === 'all'
@@ -39,32 +37,20 @@ export function GallerySection({ langMode }: GallerySectionProps) {
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div className="max-w-2xl">
             <p className="text-xs sm:text-[13px] font-semibold tracking-wide text-[#8A611B]">
-              {langMode === 'ta'
-                ? GALLERY_CONTENT.kicker.ta
-                : langMode === 'en'
-                  ? GALLERY_CONTENT.kicker.en
-                  : `${GALLERY_CONTENT.kicker.ta} · ${GALLERY_CONTENT.kicker.en}`}
+              {isTa ? GALLERY_CONTENT.kicker.ta : GALLERY_CONTENT.kicker.en}
             </p>
-            {showTa && (
+            {isTa ? (
               <h2 className="tamil-copy mt-3 text-2xl sm:text-[2.1rem] font-bold text-[#0B1D3A] leading-[1.35]">
                 {GALLERY_CONTENT.headline.ta}
               </h2>
-            )}
-            {showEn && (
-              <p
-                className={
-                  langMode === 'en'
-                    ? 'mt-3 text-2xl sm:text-[2.1rem] font-bold text-[#0B1D3A] leading-tight'
-                    : 'mt-2 text-base sm:text-lg font-semibold text-[#333C48]'
-                }
-              >
+            ) : (
+              <h2 className="mt-3 text-2xl sm:text-[2.1rem] font-bold text-[#0B1D3A] leading-tight">
                 {GALLERY_CONTENT.headline.en}
-              </p>
+              </h2>
             )}
-            <div className="mt-3 space-y-1 text-sm sm:text-[15px] text-[#5A6472]">
-              {showTa && <p className="tamil-copy">{GALLERY_CONTENT.subtitle.ta}</p>}
-              {showEn && <p>{GALLERY_CONTENT.subtitle.en}</p>}
-            </div>
+            <p className={`mt-3 text-sm sm:text-[15px] text-[#5A6472] ${isTa ? 'tamil-copy' : ''}`}>
+              {isTa ? GALLERY_CONTENT.subtitle.ta : GALLERY_CONTENT.subtitle.en}
+            </p>
           </div>
 
           {/* Interactive Filter Controls */}
@@ -88,11 +74,7 @@ export function GallerySection({ langMode }: GallerySectionProps) {
                       : 'text-[#333C48] hover:text-[#0B1D3A] hover:bg-[#FAFBFD]'
                   }`}
                 >
-                  {langMode === 'ta'
-                    ? filter.ta
-                    : langMode === 'en'
-                      ? filter.en
-                      : `${filter.ta} · ${filter.en}`}
+                  {isTa ? filter.ta : filter.en}
                 </button>
               );
             })}
@@ -135,7 +117,9 @@ export function GallerySection({ langMode }: GallerySectionProps) {
                     ) : (
                       <div className="w-full h-full flex flex-col items-center justify-center gap-2 p-6 bg-gradient-to-br from-[#0B1D3A] to-[#132C54] text-center">
                         <Building2 className="w-8 h-8 text-[#DFB664]" />
-                        <p className="text-xs font-medium text-slate-200">{item.title.en}</p>
+                        <p className="text-xs font-medium text-slate-200">
+                          {isTa ? item.title.ta : item.title.en}
+                        </p>
                       </div>
                     )}
 
@@ -147,33 +131,20 @@ export function GallerySection({ langMode }: GallerySectionProps) {
                   <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between gap-3">
                     <div>
                       <p className="text-xs font-semibold text-[#8A611B]">
-                        {langMode === 'ta'
-                          ? item.categoryLabel.ta
-                          : langMode === 'en'
-                            ? item.categoryLabel.en
-                            : `${item.categoryLabel.ta} · ${item.categoryLabel.en}`}
+                        {isTa ? item.categoryLabel.ta : item.categoryLabel.en}
                       </p>
 
-                      {showTa && (
-                        <h3 className="tamil-copy mt-1.5 text-lg font-bold text-[#0B1D3A] leading-snug">
-                          {item.title.ta}
-                        </h3>
-                      )}
-                      {showEn && (
-                        <p
-                          className={
-                            langMode === 'en'
-                              ? 'mt-1.5 text-lg font-bold text-[#0B1D3A]'
-                              : 'mt-0.5 text-sm font-medium text-[#333C48]'
-                          }
-                        >
-                          {item.title.en}
-                        </p>
-                      )}
+                      <h3
+                        className={`mt-1.5 text-lg font-bold text-[#0B1D3A] leading-snug ${
+                          isTa ? 'tamil-copy' : ''
+                        }`}
+                      >
+                        {isTa ? item.title.ta : item.title.en}
+                      </h3>
                     </div>
 
                     <div className="pt-3 border-t border-[#E2E7EF] text-xs text-[#5A6472]">
-                      {langMode === 'en' ? item.subtitle.en : item.subtitle.ta}
+                      {isTa ? item.subtitle.ta : item.subtitle.en}
                     </div>
                   </div>
                 </button>
@@ -216,40 +187,32 @@ export function GallerySection({ langMode }: GallerySectionProps) {
             <div className="p-6 sm:p-8 space-y-5">
               <div>
                 <p className="text-xs font-semibold text-[#8A611B]">
-                  {langMode === 'en'
-                    ? selectedItem.categoryLabel.en
-                    : `${selectedItem.categoryLabel.ta} · ${selectedItem.categoryLabel.en}`}
+                  {isTa ? selectedItem.categoryLabel.ta : selectedItem.categoryLabel.en}
                 </p>
                 <h3
                   id="gallery-modal-title"
-                  className="tamil-copy mt-1.5 text-xl sm:text-2xl font-bold text-[#0B1D3A]"
+                  className={`mt-1.5 text-xl sm:text-2xl font-bold text-[#0B1D3A] ${
+                    isTa ? 'tamil-copy' : ''
+                  }`}
                 >
-                  {langMode === 'en' ? selectedItem.title.en : selectedItem.title.ta}
+                  {isTa ? selectedItem.title.ta : selectedItem.title.en}
                 </h3>
-                {langMode === 'bilingual' && (
-                  <p className="text-sm font-semibold text-[#333C48] mt-1">
-                    {selectedItem.title.en}
-                  </p>
-                )}
               </div>
 
-              <div className="space-y-2 text-sm sm:text-[15px] text-[#333C48]">
-                {showTa && <p className="tamil-copy">{selectedItem.description.ta}</p>}
-                {showEn && <p className="text-[#5A6472]">{selectedItem.description.en}</p>}
-              </div>
+              <p
+                className={`text-sm sm:text-[15px] text-[#333C48] ${
+                  isTa ? 'tamil-copy' : 'leading-relaxed'
+                }`}
+              >
+                {isTa ? selectedItem.description.ta : selectedItem.description.en}
+              </p>
 
               <div className="pt-4 border-t border-[#E2E7EF]">
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs sm:text-[13px] text-[#1E242B]">
                   {selectedItem.specs.map((spec, idx) => (
                     <li key={idx} className="flex items-start gap-2">
                       <span className="text-[#8A611B] font-bold">·</span>
-                      <span>
-                        {langMode === 'en'
-                          ? spec.en
-                          : langMode === 'ta'
-                            ? spec.ta
-                            : `${spec.ta} (${spec.en})`}
-                      </span>
+                      <span>{isTa ? spec.ta : spec.en}</span>
                     </li>
                   ))}
                 </ul>
@@ -261,7 +224,7 @@ export function GallerySection({ langMode }: GallerySectionProps) {
                   onClick={() => setSelectedItem(null)}
                   className="px-4 py-2.5 text-sm font-medium text-[#333C48] hover:text-[#0B1D3A] min-h-[44px]"
                 >
-                  {langMode === 'ta' ? 'மூடு' : 'Close'}
+                  {isTa ? 'மூடு' : 'Close'}
                 </button>
                 <button
                   type="button"
@@ -269,11 +232,7 @@ export function GallerySection({ langMode }: GallerySectionProps) {
                   className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-[#0B1D3A] hover:bg-[#132C54] rounded-md min-h-[44px]"
                 >
                   <span>
-                    {langMode === 'ta'
-                      ? 'இதுபோல் கட்ட ஆலோசிக்க'
-                      : langMode === 'en'
-                        ? 'Discuss Similar Build'
-                        : 'இதுபோல் கட்ட ஆலோசிக்க · Enquire'}
+                    {isTa ? 'இதுபோல் கட்ட ஆலோசிக்க' : 'Discuss Similar Build'}
                   </span>
                   <ArrowRight className="w-4 h-4" />
                 </button>

@@ -4,7 +4,7 @@ import commercialComplexImg from '../assets/images/gallery_commercial_complex_17
 import interiorLivingImg from '../assets/images/gallery_interior_living_1794575448415.jpg';
 import structuralSiteImg from '../assets/images/gallery_structural_site_1794575448559.jpg';
 
-export type LanguageMode = 'bilingual' | 'ta' | 'en';
+export type LanguageMode = 'ta' | 'en';
 
 export interface BilingualText {
   ta: string;
